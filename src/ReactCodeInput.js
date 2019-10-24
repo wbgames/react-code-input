@@ -222,11 +222,11 @@ class ReactCodeInput extends Component {
   }
 
   render() {
-    const { className, style = {}, inputStyle = {}, inputStyleInvalid = {}, type, autoFocus, pattern, inputMode } = this.props,
+    const { className, style = {}, inputStyle = {}, inputStyleInvalid = {}, inputStyleDisabled = {}, type, autoFocus, pattern, inputMode, spacers } = this.props,
       { disabled, input, isValid, defaultInputStyle } = this.state,
       styles = {
         container: style,
-        input: isValid ? inputStyle : inputStyleInvalid,
+        input: disabled ? inputStyleDisabled : (isValid ? inputStyle : inputStyleInvalid),
       };
 
     Object.assign(styles.container, {
@@ -251,8 +251,9 @@ class ReactCodeInput extends Component {
       });
     }
 
-    if (disabled) {
-      Object.assign(styles.input, {
+    if (!className && Object.keys(inputStyleDisabled).length === 0) {
+      Object.assign(inputStyleDisabled, {
+        ...defaultInputStyle,
         cursor: 'not-allowed',
         color: 'lightgrey',
         borderColor: 'lightgrey',
@@ -260,36 +261,40 @@ class ReactCodeInput extends Component {
       });
     }
 
+    const inputs = [];
+    input.forEach((value, i) => {
+      inputs.push(
+        <input
+          ref={(ref) => {
+            this.textInput[i] = ref;
+          }}
+          id={`${this.uuid}-${i}`}
+          data-id={i}
+          autoFocus={autoFocus && (i === 0) ? 'autoFocus' : ''}
+          value={value}
+          key={`input_${i}`}
+          type={type}
+          min={0}
+          max={9}
+          maxLength={input.length === i + 1 ? 1 : input.length}
+          style={styles.input}
+          autoComplete="off"
+          onFocus={(e) => e.target.select(e)}
+          onBlur={(e) => this.handleBlur(e)}
+          onChange={(e) => this.handleChange(e)}
+          onKeyDown={(e) => this.handleKeyDown(e)}
+          disabled={disabled}
+          data-valid={isValid}
+          pattern={pattern}
+          inputMode={inputMode}
+        />
+      );
+      inputs.push(spacers[i]);
+    });
+
     return (
       <div className={classNames(className, 'react-code-input')} style={styles.container}>
-        {input.map((value, i) => {
-          return (
-            <input
-              ref={(ref) => {
-                this.textInput[i] = ref;
-              }}
-              id={`${this.uuid}-${i}`}
-              data-id={i}
-              autoFocus={autoFocus && (i === 0) ? 'autoFocus' : ''}
-              value={value}
-              key={`input_${i}`}
-              type={type}
-              min={0}
-              max={9}
-              maxLength={input.length === i + 1 ? 1 : input.length}
-              style={styles.input}
-              autoComplete="off"
-              onFocus={(e) => e.target.select(e)}
-              onBlur={(e) => this.handleBlur(e)}
-              onChange={(e) => this.handleChange(e)}
-              onKeyDown={(e) => this.handleKeyDown(e)}
-              disabled={disabled}
-              data-valid={isValid}
-              pattern={pattern}
-              inputMode={inputMode}
-            />
-          );
-        })}
+        {inputs}
       </div>
     );
   }
@@ -305,6 +310,7 @@ ReactCodeInput.defaultProps = {
   type: 'text',
   filterKeyCodes: [189, 190],
   filterChars: ['-', '.'],
+  spacers: {},
 };
 
 ReactCodeInput.propTypes = {
@@ -321,6 +327,8 @@ ReactCodeInput.propTypes = {
   style: PropTypes.object,
   inputStyle: PropTypes.object,
   inputStyleInvalid: PropTypes.object,
+  inputStyleDisabled: PropTypes.object,
+  spacers: PropTypes.object,
   autoFocus: PropTypes.bool,
   forceUppercase: PropTypes.bool,
   filterKeyCodes: PropTypes.array,

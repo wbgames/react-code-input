@@ -96,6 +96,7 @@ const ReactCodeInput = dynamic(import('react-code-input'));
 | style | object | Setting the styles of container element. |
 | inputStyle | object | Setting the styles of each input field. |
 | inputStyleInvalid | object | Setting the styles of each input field if `isValid` prop is `false`. |
+| inputStyleDisabled | object | Setting the styles of each input field if `disabled` prop is `true`. |
 | isValid | bool | Returns true if an input element contains valid data. |
 | disabled | bool | When present, it specifies that the element should be disabled. |
 | autoFocus | bool | Setup autofocus on the first input, `true` by default. |
@@ -103,6 +104,7 @@ const ReactCodeInput = dynamic(import('react-code-input'));
 | filterChars | array | Filter characters. | default: ['-', '.'] |
 | pattern | string | The pattern prop specifies a regular expression that the <input> element's value is checked against. |
 | inputMode | string | The inputMode prop tells the browser on devices with dynamic keyboards which keyboard to display. |
+| spacers | object | Mapping from input field index to optional React node that will be appended after that index. |
 
 ## Compatible with
 [`redux-form`](https://github.com/erikras/redux-form) from [erikras](https://github.com/erikras)

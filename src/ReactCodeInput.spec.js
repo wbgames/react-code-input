@@ -155,6 +155,14 @@ describe('CodeInputField', () => {
     expect(wrapper.props().inputStyleInvalid.color).toBe("black");
   });
 
+  test('should render with inputStyleDisabled', () => {
+    const inputStyleDisabled = {
+      color: "black",
+    };
+    const wrapper = mount(<CodeInputField fields={4} value="123" type="number" inputStyleDisabled={inputStyleDisabled} disabled/>);
+    expect(wrapper.props().inputStyleDisabled.color).toBe("black");
+  });
+
   test('should only use uppercase letters', () => {
     const wrapper = mount(<CodeInputField fields={3} type="text" forceUppercase/>);
     const element = wrapper.find('input').at(0);
