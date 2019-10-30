@@ -222,7 +222,7 @@ class ReactCodeInput extends Component {
   }
 
   render() {
-    const { className, style = {}, inputStyle = {}, inputStyleInvalid = {}, inputStyleDisabled = {}, type, autoFocus, pattern, inputMode, spacers } = this.props,
+    const { className, style = {}, inputStyle = {}, inputStyleInvalid = {}, inputStyleDisabled = {}, type, autoFocus, pattern, inputMode, spacers, firstInputRef } = this.props,
       { disabled, input, isValid, defaultInputStyle } = this.state,
       styles = {
         container: style,
@@ -267,6 +267,9 @@ class ReactCodeInput extends Component {
         <input
           ref={(ref) => {
             this.textInput[i] = ref;
+            if (i === 0 && firstInputRef) {
+              firstInputRef.current = ref;
+            }
           }}
           id={`${this.uuid}-${i}`}
           data-id={i}

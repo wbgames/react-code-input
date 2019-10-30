@@ -97,6 +97,7 @@ const ReactCodeInput = dynamic(import('react-code-input'));
 | inputStyle | object | Setting the styles of each input field. |
 | inputStyleInvalid | object | Setting the styles of each input field if `isValid` prop is `false`. |
 | inputStyleDisabled | object | Setting the styles of each input field if `disabled` prop is `true`. |
+| firstInputRef | ref | Ref for the first input element. |
 | isValid | bool | Returns true if an input element contains valid data. |
 | disabled | bool | When present, it specifies that the element should be disabled. |
 | autoFocus | bool | Setup autofocus on the first input, `true` by default. |
