@@ -292,7 +292,9 @@ class ReactCodeInput extends Component {
           inputMode={inputMode}
         />
       );
-      inputs.push(spacers[i]);
+      if (spacers[i]) {
+        inputs.push(React.cloneElement(spacers[i], { key: `spacer_${i}` }));
+      }
     });
 
     return (
